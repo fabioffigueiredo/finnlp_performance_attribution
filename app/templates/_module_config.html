@@ -1,0 +1,50 @@
+<div class="topbar">
+  <div>
+    <div class="page-h">⚙ Configurações</div>
+    <div class="page-desc">Portais RSS, intervalo de coleta, modelo e idioma</div>
+  </div>
+</div>
+
+<div class="content-area">
+  <div class="card">
+    <div class="config-section">
+      <h4>Portais RSS</h4>
+      <div id="config-portals"></div>
+    </div>
+  </div>
+
+  <div class="result-grid">
+    <div class="card">
+      <div class="config-section" style="margin:0">
+        <h4>Coleta automática</h4>
+        <label class="checkbox-row">Intervalo de atualização:
+          <select id="config-interval" class="select">
+            <option value="5">5 minutos</option>
+            <option value="15">15 minutos</option>
+            <option value="30">30 minutos</option>
+            <option value="60">1 hora</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="card">
+      <div class="config-section" style="margin:0">
+        <h4>Modelo &amp; Idioma</h4>
+        <label class="checkbox-row">Modelo ativo:
+          <select id="config-model" class="select">
+            <option value="SVM">SVM (LinearSVC)</option>
+            <option value="Naive Bayes">Naive Bayes</option>
+          </select>
+        </label>
+        <label class="checkbox-row">Idioma:
+          <select id="config-lang" class="select">
+            <option value="en">Inglês</option>
+            <option value="pt">Português</option>
+            <option value="auto">Automático</option>
+          </select>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="muted" id="config-status" style="font-size:11px"></div>
+</div>

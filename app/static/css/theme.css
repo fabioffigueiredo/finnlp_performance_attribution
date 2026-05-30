@@ -1,0 +1,72 @@
+/* ===========================================================================
+   FinNLP — Design System "Dark Financial"
+   theme.css — tokens, reset e utilitários base
+   =========================================================================== */
+
+:root {
+  /* Backgrounds */
+  --bg-primary:    #0A0F1E;   /* fundo base de página */
+  --bg-surface:    #0D1428;   /* cards, sidebar, topbars */
+  --bg-elevated:   #111827;   /* hover states, itens ativos */
+  --border:        #1E2A45;   /* bordas e separadores */
+
+  /* Accents */
+  --accent-blue:   #3B82F6;   /* CTAs, links, accent primário */
+  --accent-blue-d: #60A5FA;   /* labels, ícones ativos */
+  --accent-green:  #34D399;   /* sentimento positivo */
+  --accent-red:    #F87171;   /* sentimento negativo / risco */
+  --accent-yellow: #FBBF24;   /* sentimento neutro / alerta */
+  --accent-violet: #A78BFA;   /* tópicos LDA, hubs críticos */
+
+  /* Text */
+  --text-primary:  #F8FAFC;   /* texto principal */
+  --text-muted:    #94A3B8;   /* labels secundários */
+  --text-dim:      #475569;   /* texto desabilitado */
+
+  /* Layout */
+  --sidebar-w:     220px;
+  --sidebar-icon:  52px;      /* largura colapsada (mobile) */
+  --radius-sm:     6px;
+  --radius-md:     10px;
+  --radius-lg:     14px;
+
+  /* Tipografia */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'JetBrains Mono', 'Roboto Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  background: #060B14;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: var(--accent-blue-d); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Scrollbar fina e discreta */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2a3a5c; }
+
+/* Utilitários */
+.label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.7px;
+  text-transform: uppercase; color: var(--text-dim);
+}
+.muted { color: var(--text-muted); }
+.mono  { font-family: var(--font-mono); }
+.loading { color: var(--text-muted); font-size: 13px; padding: 16px; }
+.error   { color: var(--accent-red); font-size: 13px; padding: 16px; }
+
+/* Animação de pulso (live dot) */
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }

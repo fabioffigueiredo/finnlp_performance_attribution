@@ -1,0 +1,27 @@
+<div class="topbar">
+  <div>
+    <div class="page-h">📈 Histórico SCD2</div>
+    <div class="page-desc">Evolução temporal do sentimento por entidade (Slowly Changing Dimension Tipo 2)</div>
+  </div>
+</div>
+
+<div class="content-area">
+  <div class="card">
+    <div class="card-label">Entidade</div>
+    <div style="display:flex;gap:8px">
+      <input id="history-input" class="text-input" list="entities-list" placeholder="Digite ou selecione uma entidade...">
+      <datalist id="entities-list"></datalist>
+      <button id="history-btn" class="btn btn-primary">Consultar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Linha do tempo de sentimento</div>
+    <div id="timeline"><div class="muted" style="font-size:13px">Selecione uma entidade para ver o histórico.</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Versões registradas</div>
+    <div id="history-table"></div>
+  </div>
+</div>

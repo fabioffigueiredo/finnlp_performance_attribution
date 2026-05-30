@@ -1,0 +1,34 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# --- Dados brutos / processados (mantemos apenas .gitkeep e amostras) ---
+data/raw/*
+data/processed/*
+!data/**/.gitkeep
+!data/**/*.sample.csv
+
+# --- Banco SQLite gerado pelo SCD2 ---
+data/db/*.sqlite
+data/db/*.db
+
+# --- Artefatos de tracking / modelos ---
+mlruns/
+mlartifacts/
+*.joblib
+*.pkl
+
+# --- Saidas de visualizacao geradas ---
+reports/images/*
+!reports/images/.gitkeep
+
+# --- Sistema operacional ---
+.DS_Store
+.superpowers/assets/
+.claude
+.superpowers

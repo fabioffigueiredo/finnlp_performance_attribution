@@ -1,0 +1,35 @@
+<div class="topbar">
+  <div>
+    <div class="page-h">⚡ Análise de Texto</div>
+    <div class="page-desc">Sentimento · NER · Tópico LDA · Busca semântica — inferência em tempo real</div>
+  </div>
+</div>
+
+<div class="content-area">
+  <div class="result-grid" style="align-items:start">
+
+    <!-- Coluna de entrada -->
+    <div class="card">
+      <div class="card-label">📰 Notícia / Texto</div>
+      <textarea id="analyze-text" class="textarea"
+        placeholder="Cole aqui uma notícia financeira para análise...&#10;&#10;Ex: Goldman Sachs reported record profit growth this quarter, beating analyst estimates."></textarea>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap">
+        <select id="analyze-lang" class="select">
+          <option value="en">Inglês (EN)</option>
+          <option value="pt">Português (PT)</option>
+        </select>
+        <label class="muted" style="font-size:11px">Top-N busca:
+          <input id="analyze-topn" type="number" min="1" max="10" value="3"
+                 class="text-input" style="width:56px;display:inline-block;padding:5px 8px">
+        </label>
+        <button id="analyze-btn" class="btn btn-primary" style="margin-left:auto">⚡ Analisar</button>
+      </div>
+    </div>
+
+    <!-- Coluna de resultados -->
+    <div id="analysis-results">
+      <div class="card"><div class="muted" style="font-size:13px">Os resultados aparecerão aqui após a análise.</div></div>
+    </div>
+
+  </div>
+</div>

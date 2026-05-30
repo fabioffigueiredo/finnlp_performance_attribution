@@ -1,0 +1,19 @@
+<div class="topbar">
+  <div>
+    <div class="page-h">◉ Grafo de Entidades</div>
+    <div class="page-desc">Rede de coocorrência de organizações · centralidade de grau · risco de contágio</div>
+  </div>
+</div>
+
+<div class="content-area">
+  <div class="result-grid" style="grid-template-columns:2fr 1fr;align-items:start">
+    <div class="card">
+      <div class="card-label">Grafo Interativo (NetworkX + PyVis)</div>
+      <iframe class="graph-frame" src="/api/graph/html" title="Grafo de conhecimento"></iframe>
+    </div>
+    <div class="card">
+      <div class="card-label">Top 15 — Centralidade de Grau</div>
+      <div id="centrality-rank"><div class="muted" style="font-size:13px">Carregando ranking...</div></div>
+    </div>
+  </div>
+</div>
