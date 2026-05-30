@@ -1,145 +1,301 @@
-# FinNLP — Pipeline de Monitoramento e Inteligência do Mercado Financeiro
+<div align="center">
+  <img src="images/logo_infnet.png" alt="Instituto Infnet" width="90"/>
 
-> **Projeto de Disciplina (PD1) — Processamento de Linguagem Natural**
-> Pós-Graduação em Machine Learning, Deep Learning e Inteligência Artificial — INFNET
-> **Autor:** Fabio Ferreira Figueiredo
+  <h1>FinNLP — Performance Attribution & Market Intelligence</h1>
 
-Pipeline _end-to-end_ de PLN que transforma notícias e relatórios financeiros
-brutos em inteligência acionável para a **Diretoria de Estratégia de um fundo de
-investimentos**: classificação de sentimento (Risco/Oportunidade), modelagem de
-tópicos latentes, busca semântica e um grafo de conhecimento com versionamento
-histórico (SCD Tipo 2) para suportar análises de _performance attribution_.
+  <p><strong>Plataforma de NLP financeiro:</strong> classificação de sentimento, busca semântica,
+  grafo de conhecimento e monitoramento de mercado em tempo real.</p>
 
-> **Nota de contexto:** Este é um projeto **acadêmico**. O cliente ("Gestão do
-> Fundo") é **fictício e genérico**. Nenhuma instituição financeira real está
-> envolvida ou referenciada.
-
-> **Nota de compliance / anonimização:** Os dados utilizados são públicos
-> (corpus aberto) e/ou **sintéticos**. Quaisquer trechos derivados de fontes
-> corporativas foram **anonimizados** — nomes, identificadores e valores
-> sensíveis foram substituídos por equivalentes fictícios antes de qualquer
-> processamento.
+  <p>
+    <img src="https://img.shields.io/badge/python-3.12-blue?style=flat-square&logo=python&logoColor=white" alt="Python">
+    <img src="https://img.shields.io/badge/Flask-3.1-000000?style=flat-square&logo=flask&logoColor=white" alt="Flask">
+    <img src="https://img.shields.io/badge/spaCy-3.7-09a3d5?style=flat-square&logo=spacy&logoColor=white" alt="spaCy">
+    <img src="https://img.shields.io/badge/scikit--learn-1.4-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" alt="scikit-learn">
+    <img src="https://img.shields.io/badge/MLflow-2.12-0194E2?style=flat-square&logo=mlflow&logoColor=white" alt="MLflow">
+    <img src="https://img.shields.io/badge/SSE-realtime-34D399?style=flat-square" alt="SSE">
+    <img src="https://img.shields.io/badge/tests-16%20passing-34D399?style=flat-square" alt="Tests">
+  </p>
+</div>
 
 ---
 
-## 🎯 Cobertura das Rubricas (INFNET)
+## 📑 Índice
 
-| Rubrica | Onde é atendida |
+- [O que é](#-o-que-é)
+- [Demonstração dos Módulos](#️-demonstração-dos-módulos)
+- [Arquitetura](#️-arquitetura)
+- [Stack Tecnológica](#-stack-tecnológica)
+- [Instalação](#-instalação)
+- [Como Usar](#-como-usar)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Documentação Detalhada](#-documentação-detalhada)
+- [Testes](#-testes)
+- [Solução de Problemas](#️-solução-de-problemas)
+- [Origem Acadêmica](#-origem-acadêmica)
+
+---
+
+## 🎯 O que é
+
+O **FinNLP** é uma plataforma _end-to-end_ que transforma notícias e relatórios financeiros
+brutos em **inteligência acionável** para uma diretoria de estratégia de investimentos. Combina
+um pipeline completo de Processamento de Linguagem Natural com uma aplicação web premium
+(estética _Dark Financial_) que oferece análise sob demanda e **monitoramento de mercado em
+tempo real**.
+
+> **Contexto:** projeto de origem acadêmica. O cliente ("Gestão do Fundo") é **fictício e
+> genérico** — nenhuma instituição real é referenciada. Dados públicos
+> (`financial_phrasebank`) e/ou sintéticos, anonimizados.
+
+**Capacidades centrais:**
+
+| Capacidade | Descrição |
 |---|---|
-| **1. Pré-processamento** (NLTK + spaCy, lematização vs stemming, POS, WordCloud) | `src/coleta_preprocessamento.py` · Notebook Fase 1 |
-| **2. Representação vetorial + busca** (TF-IDF, Word2Vec, cosseno, t-SNE) | `src/modelagem_vetorizacao.py` · Notebook Fase 2 |
-| **3. Modelagem** (Naive Bayes vs SVM, F1, LDA + pyLDAvis, MLflow) | `src/modelagem_vetorizacao.py` · Notebook Fase 3 |
-| **4. NER + Grafo + SCD2** (spaCy ORG, Levenshtein, NetworkX, SQLAlchemy) | `src/ner_grafo.py` · `src/scd2_manager.py` · Notebook Fase 4 |
-| **5. Comunicação** (síntese executiva, app web, relatório) | `app/` (Flask) · `reports/` · Notebook Fase 5 |
+| 🧠 **Classificação de sentimento** | Naive Bayes vs SVM treinados em corpus financeiro rotulado (Risco / Oportunidade / Neutro) |
+| 🔍 **Busca semântica** | Motor de similaridade de cosseno sobre TF-IDF + Word2Vec |
+| 🧩 **Modelagem de tópicos** | LDA com visualização interativa (pyLDAvis) |
+| 🕸️ **Grafo de conhecimento** | NER (spaCy) + RegEx + Levenshtein → rede de entidades com centralidade |
+| 🕓 **Versionamento histórico** | SCD Tipo 2 (SQLAlchemy/SQLite) rastreia a evolução do sentimento por entidade |
+| 📡 **Tempo real** | Coleta RSS contínua + push via Server-Sent Events (SSE) |
+| 📊 **Rastreamento de ML** | Experimentos versionados com MLflow |
 
 ---
 
-## 📂 Estrutura do Repositório (padrão MLOps)
+## 🖥️ Demonstração dos Módulos
 
-```
-PD1/
-├── data/
-│   ├── raw/          # Corpus bruto coletado / baixado
-│   ├── processed/    # Corpus pré-processado (lematizado)
-│   └── db/           # Banco SQLite do SCD Tipo 2
-├── notebooks/        # FinNLP_Pipeline.ipynb (end-to-end, acadêmico)
-├── src/              # Módulos Python reutilizáveis do pipeline
-│   ├── coleta_preprocessamento.py   # Fases 0 e 1
-│   ├── modelagem_vetorizacao.py     # Fases 2 e 3
-│   ├── ner_grafo.py                 # Fase 4 (NER + grafo)
-│   └── scd2_manager.py              # Fase 4 (engenharia de dados SCD2)
-├── app/              # Frontend web (Flask + Vanilla JS + SSE)
-│   ├── app.py        # Application factory
-│   ├── config.py     # AppState (portais, intervalo, modelo)
-│   ├── routes/       # Blueprints: pages + 8 endpoints de API
-│   ├── services/     # pipeline · rss_scraper · live_scheduler
-│   ├── templates/    # base.html (shell) + 8 fragmentos de módulo
-│   └── static/       # css/ (Dark Financial) + js/ (SPA, SSE) + img/
-├── reports/          # Relatório técnico (PDF) + imagens geradas
-│   └── images/       # Visualizações + grafo interativo (HTML)
-├── tests/            # Testes automatizados (16 testes)
-├── requirements.txt  # Dependências fixadas
-└── README.md
-```
+A plataforma tem **8 módulos** acessíveis por um sidebar persistente (navegação SPA, sem reload):
+
+| Módulo | Ícone | O que faz |
+|---|:---:|---|
+| **Análise de Texto** | ⚡ | Cola uma notícia → sentimento + entidades (NER) + tópico LDA + documentos similares |
+| **Busca Semântica** | 🔍 | 3 consultas pré-definidas de _performance attribution_ + consulta livre por cosseno |
+| **Grafo de Entidades** | ◉ | Grafo interativo (PyVis) + ranking de centralidade / risco de contágio sistêmico |
+| **Histórico SCD2** | 📈 | Linha do tempo do sentimento de cada entidade ao longo do tempo |
+| **Métricas ML** | 📊 | Matrizes de confusão (NB vs SVM), tópicos LDA, projeção t-SNE de embeddings |
+| **Feed de Notícias** | 📡 | Scraping RSS manual dos portais selecionados, com classificação imediata |
+| **Mercado Live** | 🌐 | Sentimento agregado + stream de notícias em tempo real (SSE) |
+| **Configurações** | ⚙ | Portais RSS ativos, intervalo de coleta, modelo e idioma |
+
+> Guia detalhado de cada módulo em **[docs/USAGE.md](docs/USAGE.md)**.
 
 ---
 
-## ⚙️ Como Reproduzir
+## 🏗️ Arquitetura
 
-> Ambiente recomendado: **Python 3.12** (CPU-only, sem GPU).
-> Gerenciador recomendado: **uv** (10× mais rápido que pip puro).
+O frontend nunca toca os módulos de NLP diretamente: tudo passa pela camada `app/services/`,
+que encapsula o pipeline `src/` e carrega os modelos uma única vez (_lazy warmup_).
+
+```mermaid
+flowchart LR
+    Browser["Browser<br/>(Vanilla JS + SSE)"]
+    subgraph Flask["Flask App (app/)"]
+        Routes["routes/<br/>8 blueprints"]
+        Services["services/<br/>pipeline / rss_scraper / live_scheduler"]
+    end
+    subgraph Pipeline["Pipeline NLP (src/)"]
+        Pre["coleta_preprocessamento"]
+        Model["modelagem_vetorizacao"]
+        NER["ner_grafo"]
+        SCD2["scd2_manager"]
+    end
+    RSS["Feeds RSS<br/>(Reuters, FT, Infomoney...)"]
+    HF["financial_phrasebank"]
+    DB[("SQLite<br/>SCD2")]
+
+    Browser <-->|"fetch / EventSource"| Routes
+    Routes --> Services
+    Services --> Pipeline
+    Pre --> HF
+    Services -->|"coleta periodica"| RSS
+    SCD2 --> DB
+```
+
+**Fluxo do Mercado Live (tempo real):**
+
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant L as /stream/live
+    participant S as LiveScheduler (thread)
+    participant P as PipelineService
+    participant DB as SQLite (SCD2)
+
+    B->>L: EventSource("/stream/live")
+    L-->>B: data: {stats_update}
+    loop a cada N minutos
+        S->>S: fetch_feeds(portais ativos)
+        S->>P: analyze(noticia)
+        P-->>S: sentimento + entidades
+        S->>DB: upsert_entity_status (SCD2)
+        S-->>L: enfileira {news_item}
+        L-->>B: data: {news_item}
+    end
+```
+
+> Detalhes de design, modelo de dados SCD2 e estratégia SSE em
+> **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**.
+
+---
+
+## 🧰 Stack Tecnológica
+
+| Camada | Tecnologias |
+|---|---|
+| **Backend** | Flask 3.1 (Application Factory + Blueprints), Server-Sent Events |
+| **NLP** | spaCy 3.7, NLTK, scikit-learn 1.4, gensim (Word2Vec), pyLDAvis |
+| **Dados** | pandas, SQLAlchemy 2.0 (SQLite), feedparser (RSS) |
+| **Grafo** | NetworkX, PyVis, python-Levenshtein |
+| **ML Ops** | MLflow 2.12 |
+| **Frontend** | HTML5 + CSS custom properties + Vanilla JS (sem build, sem npm) |
+| **Testes** | pytest (16 testes) |
+
+---
+
+## 📦 Instalação
+
+> Requer **Python 3.12** (CPU-only). Recomendado o gerenciador [`uv`](https://docs.astral.sh/uv/).
 
 ```bash
-# 1. Instalar uv (caso não tenha)
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# 1. Clonar
+git clone git@github.com:fabioffigueiredo/finnlp_performance_attribution.git
+cd finnlp_performance_attribution
 
-# 2. Ambiente virtual com Python 3.12
+# 2. Ambiente virtual
 uv venv .venv --python 3.12
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 
-# 3. Dependências (uv resolve e instala em ~2 min)
+# 3. Dependências
 uv pip install -r requirements.txt
+#   (sem uv: pip install -r requirements.txt)
 
 # 4. Modelos de linguagem do spaCy
 uv pip install \
   "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl" \
   "pt-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.7.0/pt_core_news_sm-3.7.0-py3-none-any.whl"
 
-# 5. Notebook end-to-end
-jupyter notebook notebooks/FinNLP_Pipeline.ipynb
-
-# 6. (Opcional) UI de tracking de experimentos
-mlflow ui
-
-# 7. (Opcional) Aplicativo web de inferência e monitoramento
-python app/app.py        # acesse http://localhost:5001
+# 5. Recursos do NLTK (uma vez)
+python -c "import nltk; [nltk.download(p, quiet=True) for p in ('punkt','punkt_tab','stopwords','rslp')]"
 ```
 
-> **Sem uv?** Use `python3.12 -m venv .venv` + `pip install -r requirements.txt`
-> e depois `python -m spacy download en_core_web_sm pt_core_news_sm`.
+> Guia de instalação passo a passo (incluindo sem `uv`) em **[docs/INSTALL.md](docs/INSTALL.md)**.
 
 ---
 
-## 🖥️ Aplicação Web (FinNLP Intelligence Platform)
+## 🚀 Como Usar
 
-Frontend premium (estética **Dark Financial**) com 8 módulos e monitoramento de
-mercado em tempo real. Construído em **Flask + Vanilla JS + SSE** — sem npm, sem
-build pipeline.
+### Aplicação Web
 
 ```bash
 python app/app.py
 # Acesse http://localhost:5001
 ```
 
-**Módulos disponíveis:**
+- A **primeira análise** dispara o _warmup_ (baixa o corpus ~50 MB + treina os modelos),
+  levando ~30-60s. Requisições seguintes são instantâneas.
+- O módulo **Mercado Live** conecta automaticamente ao SSE e começa a coletar notícias
+  dos portais ativos.
 
-| Módulo | Função |
-|---|---|
-| ⚡ **Análise de Texto** | Cola uma notícia → sentimento + entidades (NER) + tópico LDA + busca semântica |
-| 🔍 **Busca Semântica** | Motor de cosseno com 3 queries de performance attribution + consulta livre |
-| ◉ **Grafo de Entidades** | Grafo interativo (PyVis) + ranking de centralidade / risco de contágio |
-| 📈 **Histórico SCD2** | Linha do tempo do sentimento de cada entidade (versionamento temporal) |
-| 📊 **Métricas ML** | Matrizes de confusão NB vs SVM, tópicos LDA, embeddings t-SNE |
-| 📡 **Feed de Notícias** | Scraping RSS manual dos portais selecionados, classificado |
-| 🌐 **Mercado Live** | Sentimento agregado + stream de notícias em tempo real (SSE) |
-| ⚙ **Configurações** | Portais RSS ativos, intervalo de coleta, modelo e idioma |
+### Notebook (pipeline acadêmico end-to-end)
 
-**Arquitetura:** os módulos `src/` (NLP) são encapsulados por `app/services/`
-(lazy-load dos modelos). As notícias chegam via RSS (`feedparser`) de Reuters,
-Financial Times, CNN Brasil, MarketWatch, Agência Brasil, Infomoney e Valor.
-O *Mercado Live* usa **Server-Sent Events** para push contínuo sem recarregar a
-página.
+```bash
+jupyter notebook notebooks/FinNLP_Pipeline.ipynb     # Kernel > Restart & Run All
+```
 
-> A primeira análise dispara o *warmup* (carrega o corpus + treina os modelos),
-> levando ~30-60s. Requisições seguintes são instantâneas.
+### MLflow (experimentos)
+
+```bash
+mlflow ui                                            # http://localhost:5000
+```
+
+### Variáveis de ambiente
+
+| Variável | Padrão | Descrição |
+|---|---|---|
+| `PORT` | `5001` | Porta do servidor Flask |
 
 ---
 
-## 🧭 Padrões de Engenharia adotados
+## 📂 Estrutura do Projeto
 
-- **Complexidade ciclomática** estritamente **< 10** por função (Princípio da
-  Responsabilidade Única / SOLID).
-- **Duplicação de código < 5%** (DRY) — lógica centralizada em `src/`.
-- **Reprodutibilidade**: `random_state=42` em todas as etapas estocásticas.
-- **Narrativa em 1ª pessoa** nas docstrings e células Markdown, documentando as
-  decisões técnicas tomadas.
+```
+finnlp_performance_attribution/
+├── app/                          # Aplicação web (Flask)
+│   ├── app.py                    # Application factory
+│   ├── config.py                 # AppState (portais, intervalo, modelo)
+│   ├── routes/                   # 8 blueprints (pages + APIs + SSE)
+│   ├── services/                 # pipeline / rss_scraper / live_scheduler
+│   ├── templates/                # base.html + 8 fragmentos de módulo
+│   └── static/                   # css/ (Dark Financial) / js/ (SPA, SSE) / img/
+├── src/                          # Pipeline NLP (reutilizado pelo app e notebook)
+│   ├── coleta_preprocessamento.py
+│   ├── modelagem_vetorizacao.py
+│   ├── ner_grafo.py
+│   └── scd2_manager.py
+├── notebooks/FinNLP_Pipeline.ipynb   # Pipeline end-to-end documentado
+├── reports/                      # Relatório PDF + visualizações
+├── data/                         # Corpus processado, grafo (GEXF), banco SCD2
+├── docs/                         # Documentação (este diretório)
+├── tests/                        # 16 testes (pytest)
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 📚 Documentação Detalhada
+
+| Documento | Conteúdo |
+|---|---|
+| **[docs/USAGE.md](docs/USAGE.md)** | Guia de uso de cada um dos 8 módulos, com exemplos |
+| **[docs/API.md](docs/API.md)** | Referência completa dos endpoints REST e do stream SSE |
+| **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** | Arquitetura, camada de serviços, fluxo SSE e modelo SCD2 |
+| **[docs/INSTALL.md](docs/INSTALL.md)** | Instalação detalhada e configuração do ambiente |
+
+---
+
+## ✅ Testes
+
+```bash
+PYTHONPATH=. pytest tests/ -v
+```
+
+Cobre: factory Flask, `PipelineService` (warmup + análise), parsing RSS e os endpoints de API.
+
+```
+16 passed
+```
+
+---
+
+## 🛠️ Solução de Problemas
+
+| Sintoma | Causa / Solução |
+|---|---|
+| `ModuleNotFoundError: app.routes` | Rode a partir da raiz; `python app/app.py` já ajusta o path. |
+| Análise demora na 1ª vez | _Warmup_ baixando o corpus (~50 MB) e treinando modelos. Normal (~30-60s). |
+| `Address already in use` (porta 5001) | Outro servidor ativo: `PORT=5002 python app/app.py` ou encerre o anterior. |
+| Feeds RSS vazios no Live | Portais podem estar indisponíveis; o scraper faz _skip_ silencioso. Verifique os portais em ⚙. |
+| `pkg_resources` warning (mlflow) | Benigno. `setuptools<81` já está fixado no `requirements.txt`. |
+| Grafo vazio em ◉ | Rode o notebook para gerar `data/processed/grafo_conhecimento.gexf`. |
+
+Mais cenários em **[docs/INSTALL.md](docs/INSTALL.md)**.
+
+---
+
+## 🎓 Origem Acadêmica
+
+Este projeto nasceu como entrega da disciplina **Processamento de Linguagem Natural** da
+**Pós-Graduação em Machine Learning, Deep Learning e Inteligência Artificial** (INFNET),
+sob orientação do **Prof. Fernando Guimarães Ferreira**, e foi estendido com a camada de
+aplicação web e monitoramento em tempo real.
+
+A versão estritamente acadêmica (notebook + relatório PDF) está em
+[**pd-nlp-finnlp**](https://github.com/fabioffigueiredo/pd-nlp-finnlp).
+
+**Autor:** Fabio Ferreira Figueiredo ·
+<a href="https://github.com/fabioffigueiredo">GitHub</a>
+
+---
+<div align="center">
+  <small>Desenvolvido para fins acadêmicos e de portfólio · 2026</small>
+</div>
