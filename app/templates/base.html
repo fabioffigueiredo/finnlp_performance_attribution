@@ -4,61 +4,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FinNLP — Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/theme.css">
   <link rel="stylesheet" href="/static/css/components.css">
 </head>
 <body data-initial="{{ initial_module }}">
 
+  <!-- ===== Sprite de ícones (família única · stroke 1.75 · currentColor) === -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-analysis" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8h8"/><path d="M7 12h10"/><path d="M7 16h6"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+      <symbol id="i-graph" viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="m8.3 10.7 7.4-4.4"/><path d="m8.3 13.3 7.4 4.4"/></symbol>
+      <symbol id="i-live" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+      <symbol id="i-feed" viewBox="0 0 24 24"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.4"/></symbol>
+      <symbol id="i-history" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M3 12h6"/><path d="M15 12h6"/></symbol>
+      <symbol id="i-metrics" viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="7" rx="1"/><rect x="12" y="7" width="3" height="11" rx="1"/><rect x="17" y="4" width="3" height="14" rx="1"/></symbol>
+      <symbol id="i-config" viewBox="0 0 24 24"><path d="M21 4h-7"/><path d="M10 4H3"/><path d="M21 12h-9"/><path d="M8 12H3"/><path d="M21 20h-7"/><path d="M10 20H3"/><circle cx="12" cy="4" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="12" cy="20" r="2"/></symbol>
+    </defs>
+  </svg>
+
   <div class="app-shell">
 
-    <!-- Titlebar -->
-    <div class="titlebar">
-      <div class="dot" style="background:#FF5F57"></div>
-      <div class="dot" style="background:#FEBC2E"></div>
-      <div class="dot" style="background:#28C840"></div>
-      <div class="logo-mark" style="background-image:url('/static/img/logo_infnet.png')"></div>
-      <span class="app-name">FinNLP Intelligence Platform</span>
-      <span class="app-sub">/ Atribuição de Performance &amp; Inteligência de Mercado</span>
-      <div class="live-badge"><span class="live-dot"></span> LIVE</div>
-    </div>
+    <!-- Topbar de marca ---------------------------------------------------- -->
+    <header class="brandbar">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="26" height="26"><path d="M5 22 12 12l5 5 9-11" fill="none" stroke="url(#bm)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="26" cy="6" r="2.4" fill="url(#bm)"/><defs><linearGradient id="bm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#60A5FA"/><stop offset="1" stop-color="#2563EB"/></linearGradient></defs></svg>
+      </span>
+      <span class="brand-name">FinNLP</span>
+      <span class="brand-sub">Intelligence Platform · Atribuição de Performance &amp; Inteligência de Mercado</span>
+      <span class="live-badge"><span class="live-dot"></span> AO VIVO</span>
+    </header>
 
     <div class="body-layout">
 
-      <!-- Sidebar -->
+      <!-- Sidebar ---------------------------------------------------------- -->
       <aside class="sidebar">
-        <div class="sidebar-header">
-          <div class="label">FinNLP</div>
-          <div class="search-box"><span>🔍</span><span>Buscar módulo…</span></div>
-        </div>
-
         <nav class="nav">
           <div class="nav-section">Análise</div>
-          <div class="nav-item" data-module="analysis"><span class="nav-icon">⚡</span><span>Análise de Texto</span></div>
-          <div class="nav-item" data-module="search"><span class="nav-icon">🔍</span><span>Busca Semântica</span></div>
-          <div class="nav-item" data-module="graph"><span class="nav-icon">◉</span><span>Grafo de Entidades</span></div>
+          <button class="nav-item" data-module="analysis" aria-label="Análise de Texto"><svg class="nav-icon"><use href="#i-analysis"/></svg><span>Análise de Texto</span></button>
+          <button class="nav-item" data-module="search" aria-label="Busca Semântica"><svg class="nav-icon"><use href="#i-search"/></svg><span>Busca Semântica</span></button>
+          <button class="nav-item" data-module="graph" aria-label="Grafo de Entidades"><svg class="nav-icon"><use href="#i-graph"/></svg><span>Grafo de Entidades</span></button>
 
           <div class="nav-section">Mercado</div>
-          <div class="nav-item" data-module="live"><span class="nav-icon">🌐</span><span>Mercado Live</span><span class="nav-badge">● AO VIVO</span></div>
-          <div class="nav-item" data-module="feed"><span class="nav-icon">📡</span><span>Feed de Notícias</span></div>
+          <button class="nav-item" data-module="live" aria-label="Mercado ao Vivo"><svg class="nav-icon"><use href="#i-live"/></svg><span>Mercado ao Vivo</span><span class="nav-badge">ao vivo</span></button>
+          <button class="nav-item" data-module="feed" aria-label="Feed de Notícias"><svg class="nav-icon"><use href="#i-feed"/></svg><span>Feed de Notícias</span></button>
 
           <div class="nav-section">Dados</div>
-          <div class="nav-item" data-module="history"><span class="nav-icon">📈</span><span>Histórico SCD2</span></div>
-          <div class="nav-item" data-module="metrics"><span class="nav-icon">📊</span><span>Métricas ML</span></div>
+          <button class="nav-item" data-module="history" aria-label="Histórico SCD-2"><svg class="nav-icon"><use href="#i-history"/></svg><span>Histórico SCD-2</span></button>
+          <button class="nav-item" data-module="metrics" aria-label="Métricas de ML"><svg class="nav-icon"><use href="#i-metrics"/></svg><span>Métricas de ML</span></button>
 
           <div class="nav-section">Sistema</div>
-          <div class="nav-item" data-module="config"><span class="nav-icon">⚙</span><span>Configurações</span></div>
+          <button class="nav-item" data-module="config" aria-label="Configurações"><svg class="nav-icon"><use href="#i-config"/></svg><span>Configurações</span></button>
         </nav>
 
         <div class="sidebar-footer">
           <div class="status-bar">
-            <div class="status-row"><span>Modelo ativo</span><span class="status-val">SVM · F1 0.81</span></div>
-            <div class="status-row"><span>Scraper</span><span class="status-val green">● 6 portais</span></div>
+            <div class="status-row"><span>Modelo ativo</span><span class="status-val">SVM · F1 0,88</span></div>
+            <div class="status-row"><span>Coleta</span><span class="status-val green">6 portais</span></div>
             <div class="status-row"><span>Reprodutível</span><span class="status-val">seed 42</span></div>
           </div>
         </div>
       </aside>
 
-      <!-- Main -->
+      <!-- Main ------------------------------------------------------------- -->
       <main class="main">
         <div id="content"></div>
       </main>

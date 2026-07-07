@@ -9,27 +9,34 @@
   height: 100vh; overflow: hidden;
 }
 
-.titlebar {
+/* ---- Brandbar (header de produto, sem chrome de janela falsa) ----------- */
+.brandbar {
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border);
-  padding: 10px 16px;
-  display: flex; align-items: center; gap: 10px;
+  padding: 12px 20px;
+  display: flex; align-items: center; gap: 12px;
   flex-shrink: 0;
 }
-.titlebar .dot { width: 11px; height: 11px; border-radius: 50%; }
-.titlebar .logo-mark {
-  width: 24px; height: 24px;
-  background: linear-gradient(135deg, var(--accent-blue), #1D4ED8);
-  border-radius: 6px; margin-left: 8px; flex-shrink: 0;
-  background-size: cover;
+.brand-mark {
+  width: 34px; height: 34px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  border-radius: 9px;
 }
-.titlebar .app-name { font-weight: 800; font-size: 13px; letter-spacing: -0.2px; }
-.titlebar .app-sub  { color: var(--text-muted); font-size: 12px; }
+.brand-name {
+  font-weight: 800; font-size: 15px; letter-spacing: -0.3px;
+  color: var(--text-primary);
+}
+.brand-sub {
+  color: var(--text-muted); font-size: 12px;
+  padding-left: 12px; border-left: 1px solid var(--border);
+}
 .live-badge {
-  margin-left: auto; display: flex; align-items: center; gap: 6px;
-  background: #052e16; border: 1px solid #14532d;
-  padding: 3px 12px; border-radius: 20px;
-  font-size: 11px; color: var(--accent-green); font-weight: 700;
+  margin-left: auto; display: flex; align-items: center; gap: 7px;
+  background: rgba(6,78,59,.35); border: 1px solid rgba(52,211,153,.25);
+  padding: 4px 12px; border-radius: 8px;
+  font-size: 10px; letter-spacing: .6px; text-transform: uppercase;
+  color: var(--accent-green); font-weight: 700;
 }
 .live-badge .live-dot {
   width: 6px; height: 6px; background: var(--accent-green);
@@ -47,47 +54,43 @@
   border-right: 1px solid var(--border);
   display: flex; flex-direction: column; flex-shrink: 0;
 }
-.sidebar-header { padding: 14px 16px 10px; border-bottom: 1px solid var(--border); }
-.sidebar-header .label { margin-bottom: 8px; }
-.search-box {
-  background: var(--bg-primary); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 7px 10px;
-  display: flex; align-items: center; gap: 7px;
-  font-size: 12px; color: var(--text-dim);
-}
-
-.nav { flex: 1; padding: 8px 0; overflow-y: auto; }
+.nav { flex: 1; padding: 12px 0; overflow-y: auto; }
 .nav-section {
-  padding: 8px 14px 4px; font-size: 9px; font-weight: 700;
+  padding: 12px 16px 6px; font-size: 10px; font-weight: 700;
   letter-spacing: 0.7px; color: var(--text-dim); text-transform: uppercase;
 }
+.nav-section:first-child { padding-top: 4px; }
 .nav-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 12px; margin: 1px 8px; cursor: pointer;
-  border-radius: var(--radius-sm); font-size: 13px;
-  color: var(--text-muted); position: relative;
+  width: calc(100% - 16px);
+  display: flex; align-items: center; gap: 11px;
+  padding: 9px 12px; margin: 1px 8px; cursor: pointer;
+  border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+  color: var(--text-muted); position: relative; text-align: left;
+  background: none; border: 1px solid transparent; font-family: inherit;
   transition: background .15s, color .15s; user-select: none;
 }
 .nav-item:hover { background: var(--bg-elevated); color: var(--text-primary); }
+.nav-item:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 1px; }
 .nav-item.active {
-  background: linear-gradient(135deg, rgba(59,130,246,.18), rgba(29,78,216,.08));
-  color: var(--accent-blue-d);
-  border: 1px solid rgba(59,130,246,.25);
+  background: rgba(59,130,246,.12);
+  color: var(--accent-blue-d); font-weight: 600;
+  border-color: rgba(59,130,246,.22);
 }
 .nav-item.active::before {
   content: ''; position: absolute; left: -8px; top: 50%;
-  transform: translateY(-50%); width: 3px; height: 60%;
+  transform: translateY(-50%); width: 3px; height: 55%;
   background: var(--accent-blue); border-radius: 0 2px 2px 0;
 }
+/* Ícones SVG — família única, stroke consistente, herdam a cor do item */
 .nav-icon {
-  width: 28px; height: 28px; border-radius: var(--radius-sm);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px; flex-shrink: 0;
+  width: var(--icon-md); height: var(--icon-md); flex-shrink: 0;
+  fill: none; stroke: currentColor; stroke-width: var(--icon-stroke);
+  stroke-linecap: round; stroke-linejoin: round;
 }
-.nav-item.active .nav-icon { background: rgba(59,130,246,.15); }
 .nav-badge {
-  margin-left: auto; background: #052e16; color: var(--accent-green);
-  font-size: 9px; padding: 2px 7px; border-radius: 10px; font-weight: 700;
+  margin-left: auto; background: rgba(6,78,59,.4); color: var(--accent-green);
+  font-size: 9px; letter-spacing: .4px; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 6px; font-weight: 700;
 }
 .nav-badge.blue { background: #0D1F3C; color: var(--accent-blue-d); }
 
@@ -254,10 +257,10 @@ table.data-table td { padding: 8px 10px; border-bottom: 1px solid rgba(30,42,69,
 /* ---- Responsivo --------------------------------------------------------- */
 @media (max-width: 768px) {
   .sidebar { width: var(--sidebar-icon); }
-  .sidebar-header, .nav-section, .nav-item span:not(.nav-icon),
-  .nav-badge, .sidebar-footer, .nav-item { font-size: 0; }
-  .nav-item { justify-content: center; padding: 8px 0; margin: 1px 6px; }
-  .nav-icon { font-size: 16px; }
+  .sidebar .nav-item span, .sidebar .nav-badge,
+  .sidebar .nav-section, .sidebar-footer { display: none; }
+  .nav-item { width: auto; justify-content: center; padding: 9px 0; margin: 2px 6px; gap: 0; }
+  .brand-sub { display: none; }
   .gauges { grid-template-columns: 1fr 1fr; }
   .result-grid { grid-template-columns: 1fr; }
 }
