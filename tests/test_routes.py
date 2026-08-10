@@ -79,7 +79,12 @@ def test_live_toggle_endpoint(client):
 
 
 def test_live_stream_headers(client):
+    from app.config import STATE
+    from app.services.live_scheduler import SCHEDULER
+
+    SCHEDULER.stop()
     resp = client.get("/stream/live", buffered=False)
     assert resp.status_code == 200
     assert resp.headers["Content-Type"].startswith("text/event-stream")
+    assert STATE.live_running is False
     resp.close()

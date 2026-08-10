@@ -1,7 +1,7 @@
 <div class="topbar">
   <div>
-    <div class="page-h">Mercado Live</div>
-    <div class="page-desc">Sentimento em tempo real · RSS de múltiplos portais · push via SSE</div>
+    <div class="page-h">Stream SSE de demonstração</div>
+    <div class="page-desc">Fontes RSS públicas configuradas · execução local e opcional · atualização via SSE</div>
   </div>
   <div class="topbar-actions">
     <select id="live-interval" class="interval-sel">
@@ -10,37 +10,41 @@
       <option value="30">↻ 30 min</option>
       <option value="60">↻ 1 hora</option>
     </select>
-    <button id="live-pause" class="btn btn-ghost">⏸ Pausar</button>
-    <button id="live-resume" class="btn btn-primary">Retomar</button>
+    <button id="live-pause" class="btn btn-ghost" type="button" disabled>Pausar</button>
+    <button id="live-resume" class="btn btn-primary" type="button">Iniciar demonstração</button>
   </div>
 </div>
 
 <div class="content-area">
+  <aside class="module-scope" aria-label="Limite do stream">
+    <strong>Modo de demonstração.</strong>
+    <span>O stream só começa por ação explícita e consulta fontes RSS públicas configuradas. Não representa monitoramento contínuo nem uso produtivo.</span>
+  </aside>
 
   <!-- Gauges -->
   <div class="gauges">
     <div class="gauge">
       <div class="g-label">Sentimento Geral</div>
       <div class="g-val" id="gauge-sentiment" style="color:var(--accent-green)">—</div>
-      <div class="g-sub">positivo no fluxo atual</div>
+      <div class="g-sub">sobre os itens recebidos nesta sessão</div>
       <div class="g-bar"><div class="g-fill" id="gauge-sentiment-bar" style="width:0%;background:var(--accent-green)"></div></div>
     </div>
     <div class="gauge">
       <div class="g-label">Notícias Processadas</div>
       <div class="g-val" id="gauge-news" style="color:var(--accent-blue-d)">0</div>
-      <div class="g-sub">desde a conexão</div>
+      <div class="g-sub">desde o início desta sessão</div>
       <div class="g-bar"><div class="g-fill" style="width:50%;background:var(--accent-blue)"></div></div>
     </div>
     <div class="gauge">
       <div class="g-label">Risco Detectado</div>
       <div class="g-val" id="gauge-risk" style="color:var(--accent-red)">—</div>
-      <div class="g-sub">notícias negativas</div>
+      <div class="g-sub">itens negativos da sessão</div>
       <div class="g-bar"><div class="g-fill" id="gauge-risk-bar" style="width:0%;background:var(--accent-red)"></div></div>
     </div>
     <div class="gauge">
       <div class="g-label">Status do Stream</div>
-      <div class="g-val" id="gauge-status" style="color:var(--accent-violet);font-size:18px">Conectando…</div>
-      <div class="g-sub">SSE · atualização contínua</div>
+      <div class="g-val" id="gauge-status" style="color:var(--text-muted);font-size:18px">Aguardando</div>
+      <div class="g-sub">SSE · inicia manualmente</div>
       <div class="g-bar"><div class="g-fill" style="width:100%;background:var(--accent-violet)"></div></div>
     </div>
   </div>
@@ -48,11 +52,15 @@
   <!-- Stream de notícias -->
   <div class="stream-panel">
     <div class="stream-header">
-      <div class="section-h" style="margin:0;font-size:10px">Stream ao Vivo</div>
+      <div class="section-h" style="margin:0;font-size:10px">Eventos da sessão</div>
       <div class="portal-chips" id="live-portals"></div>
     </div>
     <div class="stream-body" id="news-stream">
-      <div class="news-item"><div class="muted" style="font-size:12px">Aguardando o primeiro ciclo de coleta...</div></div>
+      <div class="stream-empty" data-stream-empty>
+        <span class="card-label">Sessão inativa</span>
+        <strong>Nenhuma sessão iniciada</strong>
+        <p>Selecione <em>Iniciar demonstração</em> para abrir o stream local de fontes RSS públicas configuradas.</p>
+      </div>
     </div>
   </div>
 

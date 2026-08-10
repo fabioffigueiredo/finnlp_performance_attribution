@@ -1,7 +1,7 @@
 <div align="center">
   <img src="images/logo_infnet.png" alt="Instituto Infnet" width="90"/>
 
-  <h1>FinNLP — Performance Attribution & Market Intelligence</h1>
+  <h1>FinNLP — demonstração verificável de NLP financeiro</h1>
 
   <p><strong>Demonstração de NLP financeiro:</strong> classificação de sentimento, busca semântica,
   grafo de conhecimento e análise de texto reproduzível.</p>
@@ -13,7 +13,7 @@
     <img src="https://img.shields.io/badge/scikit--learn-1.4-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" alt="scikit-learn">
     <img src="https://img.shields.io/badge/MLflow-2.12-0194E2?style=flat-square&logo=mlflow&logoColor=white" alt="MLflow">
     <img src="https://img.shields.io/badge/SSE-realtime-34D399?style=flat-square" alt="SSE">
-    <img src="https://img.shields.io/badge/tests-18%20passing-34D399?style=flat-square" alt="Tests">
+    <img src="https://img.shields.io/badge/tests-20%20passing-34D399?style=flat-square" alt="Tests">
   </p>
 </div>
 
@@ -55,7 +55,7 @@ execução inspecionável — da interface ao endpoint e ao serviço de pipeline
 | 🧩 **Modelagem de tópicos** | LDA com visualização interativa (pyLDAvis) |
 | 🕸️ **Grafo de conhecimento** | NER (spaCy) + RegEx + Levenshtein → rede de entidades com centralidade |
 | 🕓 **Versionamento histórico** | SCD Tipo 2 (SQLAlchemy/SQLite) rastreia a evolução do sentimento por entidade |
-| 📡 **Stream opcional** | Coleta RSS configurável + push via Server-Sent Events (SSE) |
+| 📡 **Stream opcional** | Coleta RSS sob demanda + push via Server-Sent Events (SSE), com início explícito |
 | 📊 **Rastreamento de ML** | Experimentos versionados com MLflow |
 
 ---
@@ -95,8 +95,8 @@ A plataforma tem **8 módulos** acessíveis por um sidebar persistente (navegaç
 | **Grafo de Entidades** | ◉ | Grafo interativo (PyVis) + ranking de centralidade / risco de contágio sistêmico |
 | **Histórico SCD2** | 📈 | Linha do tempo do sentimento de cada entidade ao longo do tempo |
 | **Métricas ML** | 📊 | Matrizes de confusão (NB vs SVM), tópicos LDA, projeção t-SNE de embeddings |
-| **Feed de Notícias** | 📡 | Scraping RSS manual dos portais selecionados, com classificação imediata |
-| **Mercado Live** | 🌐 | Sentimento agregado + stream de notícias em tempo real (SSE) |
+| **Coleta RSS** | 📡 | Consulta manual a fontes RSS públicas selecionadas, com classificação local |
+| **Stream SSE** | 🌐 | Sessão opcional iniciada manualmente; transmite os eventos de coleta via SSE |
 | **Configurações** | ⚙ | Portais RSS ativos, intervalo de coleta, modelo e idioma |
 
 > Guia detalhado de cada módulo em **[docs/USAGE.md](docs/USAGE.md)**.
@@ -133,7 +133,7 @@ flowchart LR
     SCD2 --> DB
 ```
 
-**Fluxo do Mercado Live (tempo real):**
+**Fluxo opcional do Stream SSE (sob demanda):**
 
 ```mermaid
 sequenceDiagram
@@ -143,6 +143,7 @@ sequenceDiagram
     participant P as PipelineService
     participant DB as SQLite (SCD2)
 
+    B->>L: POST /api/live/toggle {start}
     B->>L: EventSource("/stream/live")
     L-->>B: data: {stats_update}
     loop a cada N minutos
@@ -215,8 +216,9 @@ python app/app.py
 
 - A **primeira análise** dispara o _warmup_ (baixa o corpus ~50 MB + treina os modelos),
   levando ~30-60s. Requisições seguintes são instantâneas.
-- O módulo **Stream SSE** é opcional. Ele usa fontes RSS configuradas e não é acionado pelo
-  cenário de demonstração reproduzível.
+- O módulo **Stream SSE** é opcional e começa somente pelo botão *Iniciar demonstração*.
+  Ele usa fontes RSS configuradas, não é acionado pelo cenário de análise reproduzível e não
+  representa monitoramento contínuo ou uso produtivo.
 
 ### Notebook (pipeline acadêmico end-to-end)
 

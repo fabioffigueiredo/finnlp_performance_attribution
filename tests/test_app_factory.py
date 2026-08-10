@@ -77,3 +77,21 @@ def test_analysis_fragment_exposes_an_inspectable_demo_contract():
     assert b'POST /api/analyze' in resp.data
     assert "PipelineService".encode() in resp.data
     assert "resultado verificável".encode() in resp.data
+
+
+def test_optional_collection_modules_expose_manual_scope_before_any_request():
+    """Módulos auxiliares não devem parecer produção nem iniciar por padrão."""
+    app = create_app()
+    client = app.test_client()
+
+    live = client.get("/m/live")
+    feed = client.get("/m/feed")
+
+    assert live.status_code == 200
+    assert "Modo de demonstração".encode() in live.data
+    assert "Iniciar demonstração".encode() in live.data
+    assert "Nenhuma sessão iniciada".encode() in live.data
+    assert "monitoramento contínuo".encode() in live.data
+    assert feed.status_code == 200
+    assert "Execução sob demanda".encode() in feed.data
+    assert "Executar coleta".encode() in feed.data

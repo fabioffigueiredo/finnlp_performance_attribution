@@ -1,4 +1,4 @@
-"""Endpoint SSE do Mercado Live + controle start/stop do scheduler."""
+"""Endpoint SSE opcional + controle explícito do scheduler de demonstração."""
 from __future__ import annotations
 from flask import Blueprint, request, jsonify, Response, stream_with_context
 
@@ -10,7 +10,9 @@ bp = Blueprint("live", __name__)
 
 @bp.get("/stream/live")
 def stream():
-    SCHEDULER.start()
+    # Abrir o canal não é uma autorização para coletar. A ativação ocorre
+    # explicitamente em POST /api/live/toggle e o stream apenas transmite o
+    # estado da sessão já iniciada pelo usuário.
     return Response(
         stream_with_context(SCHEDULER.stream()),
         mimetype="text/event-stream",

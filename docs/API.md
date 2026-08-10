@@ -16,8 +16,8 @@ treino dos modelos, ~30-60s).
 - [Grafo de Conhecimento](#grafo-de-conhecimento)
 - [Histórico SCD2](#histórico-scd2)
 - [Métricas ML](#métricas-ml)
-- [Feed de Notícias](#feed-de-notícias)
-- [Mercado Live (SSE)](#mercado-live-sse)
+- [Coleta RSS manual](#coleta-rss-manual)
+- [Stream SSE de demonstração](#stream-sse-de-demonstração)
 - [Configuração](#configuração)
 
 ---
@@ -25,8 +25,8 @@ treino dos modelos, ~30-60s).
 ## Páginas (SPA)
 
 ### `GET /`
-Retorna o _shell_ HTML completo (sidebar + área de conteúdo). O módulo inicial é o
-**Mercado Live**.
+Retorna o _shell_ HTML completo (sidebar + área de conteúdo). O módulo inicial é a
+**Análise de Texto** verificável.
 
 ### `GET /m/<module>`
 Retorna o **fragmento HTML** de um módulo (injetado via `fetch` no `#content`).
@@ -158,11 +158,11 @@ Serve uma imagem de `reports/images/` (`image/png`).
 
 ---
 
-## Feed de Notícias
+## Coleta RSS manual
 
 ### `POST /api/feed/fetch`
-Coleta notícias via RSS dos portais informados (ou os ativos por padrão), classifica
-cada uma e retorna a lista.
+Consulta fontes RSS públicas informadas (ou as ativas por padrão), classifica cada item
+localmente e retorna a lista. A chamada só acontece por `POST`; não é monitoramento contínuo.
 
 **Request body:** `{ "portals": ["Reuters", "Infomoney"] }` _(opcional — usa os ativos se omitido)_
 
@@ -180,11 +180,12 @@ cada uma e retorna a lista.
 
 ---
 
-## Mercado Live (SSE)
+## Stream SSE de demonstração
 
 ### `GET /stream/live`
-Abre um stream **Server-Sent Events** (`text/event-stream`). Inicia o `LiveScheduler`
-se ainda não estiver rodando. O cliente conecta com `new EventSource("/stream/live")`.
+Abre um stream **Server-Sent Events** (`text/event-stream`) para transmitir o estado da
+sessão já iniciada. Este `GET` não inicia coleta; o cliente só conecta após o `POST` explícito
+de ativação.
 
 **Eventos emitidos** (cada um em uma linha `data: <json>`):
 
@@ -198,7 +199,8 @@ data: {"type": "news_item", "data": {"title": "...", "portal": "Reuters", "link"
 Linhas `: keep-alive` são enviadas periodicamente para manter a conexão viva.
 
 ### `POST /api/live/toggle`
-Inicia ou para o scheduler de coleta.
+Inicia ou para o scheduler de coleta de demonstração. O fluxo usa fontes RSS públicas
+configuradas e não representa monitoramento produtivo.
 
 **Request body:** `{ "action": "start" }` ou `{ "action": "stop" }`
 **Response `200`:** `{ "live_running": true }`

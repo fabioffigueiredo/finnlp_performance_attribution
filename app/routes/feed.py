@@ -1,4 +1,4 @@
-"""Scraping RSS manual: busca, classifica e devolve notícias."""
+"""Coleta RSS manual: busca fontes públicas, classifica e devolve itens de demonstração."""
 from __future__ import annotations
 from flask import Blueprint, request, jsonify
 

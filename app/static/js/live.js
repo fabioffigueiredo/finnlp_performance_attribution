@@ -1,30 +1,49 @@
 // =============================================================================
 // FinNLP — live.js
-// Módulo 🌐 Mercado Live (EventSource/SSE) + 📡 Feed de Notícias (fetch manual).
+// Módulos opcionais: Stream SSE explícito + coleta manual de fontes RSS públicas.
 // =============================================================================
 
 window.MODULE_INIT = window.MODULE_INIT || {};
 
 let _es = null;
 
-// ---- Mercado Live (SSE) ----------------------------------------------------
+// ---- Stream SSE de demonstração -------------------------------------------
 window.MODULE_INIT.live = function () {
   const stream = document.getElementById("news-stream");
   if (!stream) return;
 
   renderPortalChips("live-portals", "live");
-  connectSSE(stream);
 
   const pause = document.getElementById("live-pause");
   const resume = document.getElementById("live-resume");
   const status = document.getElementById("gauge-status");
 
-  if (pause) pause.addEventListener("click", () => {
-    if (_es) { _es.close(); _es = null; }
-    if (status) { status.textContent = "Pausado"; status.style.color = "var(--text-muted)"; }
+  if (resume) resume.addEventListener("click", async () => {
+    resume.disabled = true;
+    resume.textContent = "Iniciando…";
+    try {
+      await setLiveState("start");
+      connectSSE(stream);
+      resume.textContent = "Demonstração em andamento";
+      if (pause) pause.disabled = false;
+    } catch (error) {
+      resume.disabled = false;
+      resume.textContent = "Iniciar demonstração";
+      if (status) {
+        status.textContent = "Falha ao iniciar";
+        status.style.color = "var(--accent-red)";
+      }
+    }
   });
-  if (resume) resume.addEventListener("click", () => {
-    connectSSE(stream);
+  if (pause) pause.addEventListener("click", async () => {
+    pause.disabled = true;
+    if (_es) { _es.close(); _es = null; }
+    try { await setLiveState("stop"); } catch { /* estado visual continua seguro */ }
+    if (status) { status.textContent = "Pausado"; status.style.color = "var(--text-muted)"; }
+    if (resume) {
+      resume.disabled = false;
+      resume.textContent = "Retomar demonstração";
+    }
   });
 
   const interval = document.getElementById("live-interval");
@@ -49,7 +68,7 @@ function connectSSE(stream) {
     let msg;
     try { msg = JSON.parse(ev.data); } catch { return; }
     if (msg.type === "news_item") {
-      if (stream.querySelector(".muted")) stream.innerHTML = "";
+      if (stream.querySelector("[data-stream-empty]")) stream.innerHTML = "";
       prependNews(stream, msg.data, true);
     } else if (msg.type === "stats_update") {
       updateGauges(msg.data);
@@ -58,6 +77,16 @@ function connectSSE(stream) {
   _es.onerror = () => {
     if (status) { status.textContent = "Reconectando…"; status.style.color = "var(--accent-yellow)"; }
   };
+}
+
+async function setLiveState(action) {
+  const response = await fetch("/api/live/toggle", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action }),
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
 }
 
 function updateGauges(stats) {
@@ -71,7 +100,7 @@ function updateGauges(stats) {
   setWidth("gauge-risk-bar", negPct);
 }
 
-// ---- Feed de Notícias (fetch manual) ---------------------------------------
+// ---- Coleta RSS manual -----------------------------------------------------
 window.MODULE_INIT.feed = function () {
   renderPortalChips("feed-portals", "feed");
   const btn = document.getElementById("feed-fetch");
@@ -80,6 +109,9 @@ window.MODULE_INIT.feed = function () {
   btn.addEventListener("click", async () => {
     const out = document.getElementById("feed-results");
     const count = document.getElementById("feed-count");
+    const defaultLabel = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Coletando…";
     out.innerHTML = `<div class="news-item"><div class="loading">Buscando notícias nos portais…</div></div>`;
     try {
       const resp = await fetch("/api/feed/fetch", {
@@ -96,6 +128,9 @@ window.MODULE_INIT.feed = function () {
       if (count) count.textContent = `${d.count || 0} notícias`;
     } catch (e) {
       out.innerHTML = `<div class="news-item"><div class="error">Erro: ${e}</div></div>`;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = defaultLabel;
     }
   });
 };

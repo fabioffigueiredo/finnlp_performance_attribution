@@ -92,35 +92,36 @@ Galeria das visualizações geradas pelo pipeline, em 3 abas:
 
 ---
 
-## 📡 Feed de Notícias
+## 📡 Coleta RSS manual
 
-Coleta RSS **sob demanda** (diferente do Live, que é contínuo).
+Consulta RSS **sob demanda**, a partir das fontes públicas configuradas.
 
 1. Selecione os **portais** desejados (chips no topo — clique para ligar/desligar).
-2. Clique em **🔄 Buscar agora**.
+2. Clique em **Executar coleta**.
 
 Cada notícia coletada é classificada na hora e exibida com badge de sentimento, portal de
-origem e entidades extraídas. Bom para uma varredura pontual do noticiário atual.
+origem e entidades extraídas. É um fluxo exploratório local; não é recomendação de investimento.
 
 ---
 
-## 🌐 Mercado Live
+## 🌐 Stream SSE de demonstração
 
-O painel de **monitoramento em tempo real** — o módulo principal.
+Uma sessão opcional para tornar visível o caminho de eventos da coleta RSS.
 
-**Ao abrir**, conecta automaticamente ao stream SSE. A barra de status mostra
-`● Conectado`.
+**Ao abrir**, o estado é `Aguardando`. Clique em **Iniciar demonstração** para enviar a
+ativação explícita e conectar ao stream SSE.
 
 - **Gauges (topo):** sentimento geral (% positivo), notícias processadas, risco
-  detectado (% negativo) e status do stream.
-- **Stream ao vivo:** cada notícia coletada aparece no topo da lista, classificada, em
-  tempo real — sem recarregar a página.
-- **Controles:** seletor de **intervalo** de coleta (5/15/30/60 min), **⏸ Pausar** (fecha
-  o stream) e **▶ Retomar**.
+  detectado (% negativo) e status da sessão.
+- **Eventos da sessão:** cada item coletado aparece no topo da lista, classificado, sem
+  recarregar a página.
+- **Controles:** seletor de **intervalo** de coleta (5/15/30/60 min), **Pausar** (solicita
+  a parada do scheduler) e **Retomar demonstração**.
 - **Chips de portal:** ligam/desligam fontes que alimentam o stream.
 
 Por baixo, o scheduler coleta os feeds no intervalo configurado, classifica cada notícia,
-**persiste o sentimento no banco SCD2** e empurra os eventos para o navegador.
+**persiste o sentimento no banco SCD2** e empurra os eventos para o navegador. Esse percurso
+é de demonstração acadêmica e não implica monitoramento contínuo ou uso produtivo.
 
 ---
 
@@ -130,7 +131,7 @@ Controle central do comportamento da plataforma:
 
 - **Portais RSS:** habilite/desabilite cada fonte (Reuters, Financial Times, CNN Brasil,
   MarketWatch, Agência Brasil, Infomoney, Valor).
-- **Coleta automática:** intervalo de atualização do Mercado Live.
+- **Intervalo de sessão:** cadência usada quando o Stream SSE de demonstração é iniciado.
 - **Modelo & Idioma:** modelo de classificação ativo (SVM / Naive Bayes) e idioma padrão.
 
 As alterações são aplicadas imediatamente e refletidas nos demais módulos.
@@ -140,9 +141,10 @@ As alterações são aplicadas imediatamente e refletidas nos demais módulos.
 ## Fluxo de trabalho sugerido
 
 ```
-1. Configurações (⚙)  → escolher portais e intervalo
-2. Mercado Live (🌐)   → deixar monitorando o sentimento agregado
-3. Análise (⚡)         → investigar uma notícia específica em profundidade
-4. Grafo (◉)           → ver quem é hub de contágio
-5. Histórico (📈)       → checar a evolução do sentimento de um ativo
+1. Análise (⚡)         → executar o cenário público e fictício verificável
+2. Configurações (⚙)   → escolher fontes e intervalo, se necessário
+3. Coleta RSS (📡)      → consultar fontes públicas sob demanda
+4. Stream SSE (🌐)      → iniciar uma sessão opcional para observar eventos
+5. Grafo (◉)            → explorar entidades extraídas
+6. Histórico (📈)        → consultar versões SCD2 registradas
 ```

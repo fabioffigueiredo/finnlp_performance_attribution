@@ -1,14 +1,18 @@
 <div class="topbar">
   <div>
-    <div class="page-h">Feed de Notícias</div>
-    <div class="page-desc">Scraping RSS manual dos portais selecionados, com classificação de sentimento</div>
+    <div class="page-h">Coleta RSS manual</div>
+    <div class="page-desc">Fontes públicas configuradas · classificação local de sentimento · sem uso produtivo</div>
   </div>
   <div class="topbar-actions">
-    <button id="feed-fetch" class="btn btn-primary">Buscar agora</button>
+    <button id="feed-fetch" class="btn btn-primary" type="button">Executar coleta</button>
   </div>
 </div>
 
 <div class="content-area">
+  <aside class="module-scope" aria-label="Limite da coleta">
+    <strong>Execução sob demanda.</strong>
+    <span>Cada coleta é iniciada manualmente e usa apenas as fontes RSS listadas abaixo. Resultados são de demonstração, não recomendação de investimento.</span>
+  </aside>
   <div class="card">
     <div class="card-label">Portais ativos</div>
     <div class="portal-chips" id="feed-portals" style="margin-left:0"></div>
@@ -20,7 +24,7 @@
       <span class="muted" id="feed-count" style="margin-left:auto;font-size:11px"></span>
     </div>
     <div class="stream-body" id="feed-results">
-      <div class="news-item"><div class="muted" style="font-size:12px">Clique em "Buscar agora" para coletar notícias dos portais.</div></div>
+      <div class="news-item"><div class="muted" style="font-size:12px">Execute uma coleta para consultar as fontes RSS selecionadas.</div></div>
     </div>
   </div>
 </div>
