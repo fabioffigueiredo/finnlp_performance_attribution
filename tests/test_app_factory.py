@@ -95,3 +95,12 @@ def test_optional_collection_modules_expose_manual_scope_before_any_request():
     assert feed.status_code == 200
     assert "Execução sob demanda".encode() in feed.data
     assert "Executar coleta".encode() in feed.data
+
+
+def test_readme_points_to_current_verifiable_capture():
+    """A vitrine do repositório deve mostrar o fluxo atual, não um layout legado."""
+    root = Path(__file__).parent.parent
+    readme = (root / "README.md").read_text(encoding="utf-8")
+
+    assert "reports/images/finnlp-verifiable-analysis.png" in readme
+    assert (root / "reports/images/finnlp-verifiable-analysis.png").is_file()

@@ -13,7 +13,7 @@
     <img src="https://img.shields.io/badge/scikit--learn-1.4-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" alt="scikit-learn">
     <img src="https://img.shields.io/badge/MLflow-2.12-0194E2?style=flat-square&logo=mlflow&logoColor=white" alt="MLflow">
     <img src="https://img.shields.io/badge/SSE-realtime-34D399?style=flat-square" alt="SSE">
-    <img src="https://img.shields.io/badge/tests-20%20passing-34D399?style=flat-square" alt="Tests">
+    <img src="https://img.shields.io/badge/tests-21%20passing-34D399?style=flat-square" alt="Tests">
   </p>
 </div>
 
@@ -62,7 +62,7 @@ execução inspecionável — da interface ao endpoint e ao serviço de pipeline
 
 ## 🔎 Demonstração verificável
 
-![FinNLP: cenário público de demonstração](reports/images/finnlp-demo-vertical.png)
+![FinNLP: cenário público fictício, resposta HTTP 200 e caminho até o PipelineService](reports/images/finnlp-verifiable-analysis.png)
 
 A primeira tela abre em **Análise de Texto**, não em um feed simulado. O botão
 **Carregar cenário** insere um texto fictício, identificado como tal, e a ação
@@ -257,10 +257,10 @@ finnlp_performance_attribution/
 │   ├── ner_grafo.py
 │   └── scd2_manager.py
 ├── reports/                      # Relatório PDF + visualizações
-│   └── images/finnlp-demo-vertical.png  # screenshot do endpoint real em cenário fictício
+│   └── images/finnlp-verifiable-analysis.png  # captura real do endpoint no cenário fictício
 ├── data/                         # Corpus processado, grafo (GEXF), banco SCD2
 ├── docs/                         # Documentação (este diretório)
-├── tests/                        # 16 testes (pytest)
+├── tests/                        # 21 testes (pytest)
 ├── requirements.txt
 └── README.md
 ```
