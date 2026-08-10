@@ -1,11 +1,19 @@
 <div class="topbar">
   <div>
     <div class="page-h">Análise de Texto</div>
-    <div class="page-desc">Sentimento · NER · Tópico LDA · Busca semântica — inferência em tempo real</div>
+    <div class="page-desc">Sentimento · entidades · tópico · busca semântica em um fluxo reproduzível</div>
   </div>
 </div>
 
 <div class="content-area">
+  <aside class="demo-notice" aria-label="Escopo da demonstração">
+    <div>
+      <div class="card-label">Cenário público de demonstração</div>
+      <p>O texto é fictício; o processamento usa o endpoint real desta aplicação.</p>
+    </div>
+    <p class="demo-limit">Projeto acadêmico de portfólio · dados públicos/sintéticos · não é recomendação de investimento.</p>
+  </aside>
+
   <div class="result-grid" style="align-items:start">
 
     <!-- Coluna de entrada -->
@@ -22,6 +30,7 @@
           <input id="analyze-topn" type="number" min="1" max="10" value="3"
                  class="text-input" style="width:56px;display:inline-block;padding:5px 8px">
         </label>
+        <button id="load-demo-scenario" class="btn btn-ghost" type="button">Carregar cenário</button>
         <button id="analyze-btn" class="btn btn-primary" style="margin-left:auto">Analisar</button>
       </div>
     </div>

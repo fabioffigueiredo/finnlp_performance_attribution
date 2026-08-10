@@ -40,3 +40,27 @@ def test_home_returns_shell():
     assert resp.status_code == 200
     assert b"FinNLP" in resp.data
     assert b"sidebar" in resp.data.lower()
+
+
+def test_home_opens_a_safe_analysis_demo_not_a_live_claim():
+    """A pessoa que abre o projeto começa no fluxo gravável e não em um feed simulado."""
+    app = create_app()
+    client = app.test_client()
+    resp = client.get("/")
+
+    assert resp.status_code == 200
+    assert b'data-initial="analysis"' in resp.data
+    assert b"scope-badge" in resp.data
+    assert b"AO VIVO" not in resp.data
+
+
+def test_analysis_fragment_exposes_a_labeled_demo_and_limits():
+    """O cenário é visível no mesmo limite público que será gravado."""
+    app = create_app()
+    client = app.test_client()
+    resp = client.get("/m/analysis")
+
+    assert resp.status_code == 200
+    assert b'id="load-demo-scenario"' in resp.data
+    assert "dados públicos/sintéticos".encode() in resp.data
+    assert "não é recomendação de investimento".encode() in resp.data

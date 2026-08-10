@@ -18,8 +18,8 @@ MODULES = {
 
 @bp.get("/")
 def home():
-    # Carga inicial: shell com o módulo Live embutido
-    return render_template("base.html", initial_module="live")
+    # A primeira tela é a análise reproduzível. O módulo SSE continua opcional.
+    return render_template("base.html", initial_module="analysis")
 
 
 @bp.get("/m/<module>")

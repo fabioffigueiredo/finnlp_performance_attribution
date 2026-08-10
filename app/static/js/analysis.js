@@ -8,6 +8,17 @@ window.MODULE_INIT = window.MODULE_INIT || {};
 window.MODULE_INIT.analysis = function () {
   const btn = document.getElementById("analyze-btn");
   if (!btn) return;
+  const scenario = document.getElementById("load-demo-scenario");
+  const demoText = "Demo Corporation reported strong quarterly earnings and a higher operating margin. This is a fictional public demonstration scenario.";
+
+  if (scenario) {
+    scenario.addEventListener("click", () => {
+      document.getElementById("analyze-text").value = demoText;
+      document.getElementById("analyze-lang").value = "en";
+      document.getElementById("analyze-topn").value = "3";
+      document.getElementById("analysis-results").innerHTML = `<div class="card"><div class="muted" style="font-size:13px">Cenário carregado. Clique em Analisar para executar o endpoint real.</div></div>`;
+    });
+  }
 
   btn.addEventListener("click", async () => {
     const text = document.getElementById("analyze-text").value.trim();
@@ -49,6 +60,12 @@ function renderAnalysis(d) {
     : '<span class="muted">—</span>';
 
   return `
+    <aside class="execution-trace" aria-label="Traço de execução">
+      <span class="trace-label">Execução verificada</span>
+      <span class="mono">POST /api/analyze</span><span aria-hidden="true">→</span>
+      <span class="mono">PipelineService</span><span aria-hidden="true">→</span>
+      <span>resultado</span>
+    </aside>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
       <div class="result-card">
         <div class="card-label">Sentimento</div>

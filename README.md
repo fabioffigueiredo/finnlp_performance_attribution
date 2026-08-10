@@ -61,6 +61,30 @@ tempo real**.
 
 ---
 
+## 🔎 Demonstração verificável
+
+![FinNLP: cenário público de demonstração](reports/images/finnlp-demo-vertical.png)
+
+A primeira tela abre em **Análise de Texto**, não em um feed simulado. O botão
+**Carregar cenário** insere um texto fictício, identificado como tal, e a ação
+**Analisar** faz uma chamada real a `POST /api/analyze`.
+
+O retorno visível mostra sentimento, entidades, tópico e textos semanticamente similares,
+além do traço `POST /api/analyze → PipelineService → resultado`. Assim, quem avalia o
+projeto consegue separar a interface do caminho de execução que a sustenta.
+
+> **Limite de escopo:** projeto acadêmico e de portfólio, com dados públicos e/ou sintéticos.
+> Não é recomendação de investimento, nem demonstração de um ambiente de produção.
+
+### O que vale inspecionar tecnicamente
+
+- `app/routes/analysis.py`: contrato HTTP fino para a análise;
+- `app/services/pipeline.py`: carregamento lazy, thread-safe e pipeline de inferência;
+- `src/scd2_manager.py`: persistência temporal por SCD Tipo 2;
+- `tests/`: testes de fábrica, rotas, serviço e parsing de feed.
+
+---
+
 ## 🖥️ Demonstração dos Módulos
 
 A plataforma tem **8 módulos** acessíveis por um sidebar persistente (navegação SPA, sem reload):
@@ -192,8 +216,8 @@ python app/app.py
 
 - A **primeira análise** dispara o _warmup_ (baixa o corpus ~50 MB + treina os modelos),
   levando ~30-60s. Requisições seguintes são instantâneas.
-- O módulo **Mercado Live** conecta automaticamente ao SSE e começa a coletar notícias
-  dos portais ativos.
+- O módulo **Stream SSE** é opcional. Ele usa fontes RSS configuradas e não é acionado pelo
+  cenário de demonstração reproduzível.
 
 ### Notebook (pipeline acadêmico end-to-end)
 
@@ -231,8 +255,8 @@ finnlp_performance_attribution/
 │   ├── modelagem_vetorizacao.py
 │   ├── ner_grafo.py
 │   └── scd2_manager.py
-├── notebooks/FinNLP_Pipeline.ipynb   # Pipeline end-to-end documentado
 ├── reports/                      # Relatório PDF + visualizações
+│   └── images/finnlp-demo-vertical.png  # screenshot do endpoint real em cenário fictício
 ├── data/                         # Corpus processado, grafo (GEXF), banco SCD2
 ├── docs/                         # Documentação (este diretório)
 ├── tests/                        # 16 testes (pytest)

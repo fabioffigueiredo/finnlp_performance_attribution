@@ -26,6 +26,7 @@ mlartifacts/
 # --- Saidas de visualizacao geradas ---
 reports/images/*
 !reports/images/.gitkeep
+!reports/images/finnlp-demo-vertical.png
 
 # --- Sistema operacional ---
 .DS_Store
