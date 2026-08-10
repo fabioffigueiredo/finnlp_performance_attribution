@@ -13,7 +13,7 @@
     <img src="https://img.shields.io/badge/scikit--learn-1.4-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" alt="scikit-learn">
     <img src="https://img.shields.io/badge/MLflow-2.12-0194E2?style=flat-square&logo=mlflow&logoColor=white" alt="MLflow">
     <img src="https://img.shields.io/badge/SSE-realtime-34D399?style=flat-square" alt="SSE">
-    <img src="https://img.shields.io/badge/tests-16%20passing-34D399?style=flat-square" alt="Tests">
+    <img src="https://img.shields.io/badge/tests-18%20passing-34D399?style=flat-square" alt="Tests">
   </p>
 </div>
 
@@ -283,10 +283,11 @@ finnlp_performance_attribution/
 PYTHONPATH=. pytest tests/ -v
 ```
 
-Cobre: factory Flask, `PipelineService` (warmup + análise), parsing RSS e os endpoints de API.
+Cobre: factory Flask, inicialização segura da demo, `PipelineService` (warmup + análise),
+parsing RSS e os endpoints de API.
 
 ```
-16 passed
+18 passed
 ```
 
 ---
