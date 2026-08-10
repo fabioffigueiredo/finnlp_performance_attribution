@@ -28,6 +28,9 @@ reports/images/*
 !reports/images/.gitkeep
 !reports/images/finnlp-demo-vertical.png
 
+# --- Mídia temporária da demonstração editorial ---
+media/
+
 # --- Sistema operacional ---
 .DS_Store
 .superpowers/assets/
