@@ -79,6 +79,18 @@ def test_analysis_fragment_exposes_an_inspectable_demo_contract():
     assert "resultado verificável".encode() in resp.data
 
 
+def test_analysis_fragment_exposes_the_evidence_first_purpose():
+    """A vitrine deve explicar a prova de engenharia antes da interface visual."""
+    app = create_app()
+    client = app.test_client()
+    resp = client.get("/m/analysis")
+
+    assert resp.status_code == 200
+    assert b'analysis-evidence' in resp.data
+    assert "O que esta tela comprova".encode() in resp.data
+    assert "Entrada fictícia, marcada na interface".encode() in resp.data
+
+
 def test_optional_collection_modules_expose_manual_scope_before_any_request():
     """Módulos auxiliares não devem parecer produção nem iniciar por padrão."""
     app = create_app()
@@ -102,5 +114,5 @@ def test_readme_points_to_current_verifiable_capture():
     root = Path(__file__).parent.parent
     readme = (root / "README.md").read_text(encoding="utf-8")
 
-    assert "reports/images/finnlp-verifiable-analysis.png" in readme
-    assert (root / "reports/images/finnlp-verifiable-analysis.png").is_file()
+    assert "reports/images/finnlp-verifiable-analysis-v2.png" in readme
+    assert (root / "reports/images/finnlp-verifiable-analysis-v2.png").is_file()

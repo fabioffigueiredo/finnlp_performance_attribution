@@ -27,6 +27,7 @@ mlartifacts/
 reports/images/*
 !reports/images/.gitkeep
 !reports/images/finnlp-demo-vertical.png
+!reports/images/finnlp-verifiable-analysis-v2.png
 
 # --- Mídia temporária da demonstração editorial ---
 media/

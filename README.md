@@ -62,11 +62,11 @@ execução inspecionável — da interface ao endpoint e ao serviço de pipeline
 
 ## 🔎 Demonstração verificável
 
-![FinNLP: cenário público fictício, resposta HTTP 200 e caminho até o PipelineService](reports/images/finnlp-verifiable-analysis.png)
+![FinNLP: entrada fictícia, resposta HTTP 200 e caminho até o PipelineService](reports/images/finnlp-verifiable-analysis-v2.png)
 
-A primeira tela abre em **Análise de Texto**, não em um feed simulado. O botão
-**Carregar cenário** insere um texto fictício, identificado como tal, e a ação
-**Analisar** faz uma chamada real a `POST /api/analyze`.
+A primeira tela abre no contrato de execução, não em um feed simulado. O botão
+**Carregar entrada fictícia** insere um texto identificado como tal, e a ação
+**Executar análise** faz uma chamada real a `POST /api/analyze`.
 
 O retorno visível mostra sentimento, entidades, tópico e textos semanticamente similares,
 além do traço `POST /api/analyze → PipelineService → resultado`. Assim, quem avalia o
@@ -257,10 +257,10 @@ finnlp_performance_attribution/
 │   ├── ner_grafo.py
 │   └── scd2_manager.py
 ├── reports/                      # Relatório PDF + visualizações
-│   └── images/finnlp-verifiable-analysis.png  # captura real do endpoint no cenário fictício
+│   └── images/finnlp-verifiable-analysis-v2.png  # captura atual do endpoint no cenário fictício
 ├── data/                         # Corpus processado, grafo (GEXF), banco SCD2
 ├── docs/                         # Documentação (este diretório)
-├── tests/                        # 21 testes (pytest)
+├── tests/                        # 22 testes (pytest)
 ├── requirements.txt
 └── README.md
 ```

@@ -1,30 +1,17 @@
 <div class="content-area">
   <section class="analysis-hero" aria-labelledby="analysis-title">
     <div class="analysis-hero-copy">
-      <p class="eyebrow">Demonstração verificável</p>
-      <h1 id="analysis-title">Uma entrada.<br><span>Um caminho inspecionável.</span></h1>
-      <p class="analysis-lede">Carregue um cenário fictício e acompanhe a análise atravessar o endpoint HTTP até o serviço de pipeline.</p>
-      <div class="proof-chips" aria-label="Escopo da demonstração">
-        <span>cenário fictício</span>
-        <span>endpoint real</span>
-        <span>dados públicos/sintéticos</span>
-      </div>
+      <p class="analysis-overline">FinNLP · laboratório de portfólio</p>
+      <h1 id="analysis-title">A interface vem depois<br><span>da evidência de execução.</span></h1>
+      <p class="analysis-lede">Carregue uma entrada fictícia, execute a análise e confira o contrato que produz o retorno antes de interpretar qualquer resultado.</p>
     </div>
-    <aside class="analysis-contract" aria-label="Contrato da demonstração">
-      <div class="contract-row">
-        <span class="contract-label">entrada</span>
-        <code>texto + idioma</code>
-      </div>
-      <div class="contract-arrow" aria-hidden="true">↓</div>
-      <div class="contract-row">
-        <span class="contract-label">endpoint</span>
-        <code>POST /api/analyze</code>
-      </div>
-      <div class="contract-arrow" aria-hidden="true">↓</div>
-      <div class="contract-row">
-        <span class="contract-label">resultado verificável</span>
-        <code>PipelineService → JSON</code>
-      </div>
+    <aside class="analysis-evidence" aria-label="O que esta tela comprova">
+      <p class="analysis-evidence-title">O que esta tela comprova</p>
+      <ul class="proof-list">
+        <li><span class="proof-key">Entrada</span><span>Entrada fictícia, marcada na interface; dados públicos/sintéticos</span></li>
+        <li><span class="proof-key">Contrato</span><code>POST /api/analyze</code></li>
+        <li><span class="proof-key">resultado verificável</span><code>PipelineService → JSON</code></li>
+      </ul>
     </aside>
   </section>
 
@@ -32,14 +19,20 @@
     <p><strong>Limite de escopo:</strong> projeto acadêmico de portfólio; não é recomendação de investimento nem evidência de produção.</p>
   </aside>
 
-  <div class="result-grid analysis-workspace" style="align-items:start">
+  <div class="result-grid analysis-workspace">
 
     <!-- Coluna de entrada -->
     <div class="card input-card">
-      <div class="card-label">Entrada para análise</div>
+      <div class="composer-header">
+        <div>
+          <div class="card-label">Entrada para análise</div>
+          <p>Use a entrada pública de demonstração ou escreva um texto próprio.</p>
+        </div>
+        <span class="composer-scope">sem coleta automática</span>
+      </div>
       <textarea id="analyze-text" class="textarea"
-        placeholder="Cole aqui uma notícia financeira para análise...&#10;&#10;Ex: Goldman Sachs reported record profit growth this quarter, beating analyst estimates."></textarea>
-      <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap">
+        placeholder="Cole um texto para análise. O conteúdo só é enviado quando você executa a requisição."></textarea>
+      <div class="analysis-controls">
         <select id="analyze-lang" class="select">
           <option value="en">Inglês (EN)</option>
           <option value="pt">Português (PT)</option>
@@ -48,18 +41,18 @@
           <input id="analyze-topn" type="number" min="1" max="10" value="3"
                  class="text-input" style="width:56px;display:inline-block;padding:5px 8px">
         </label>
-        <button id="load-demo-scenario" class="btn btn-ghost" type="button">Usar cenário de demonstração</button>
-        <button id="analyze-btn" class="btn btn-primary" style="margin-left:auto">Analisar texto</button>
+        <button id="load-demo-scenario" class="btn btn-ghost" type="button">Carregar entrada fictícia</button>
+        <button id="analyze-btn" class="btn btn-primary">Executar análise</button>
       </div>
     </div>
 
     <!-- Coluna de resultados -->
     <div id="analysis-results" aria-live="polite">
       <div class="analysis-empty">
-        <div class="card-label">Aguardando uma requisição</div>
-        <p>O retorno exibirá sentimento, entidades, tópico e textos relacionados — apenas depois da chamada ao endpoint.</p>
+        <div class="card-label">Ainda não houve execução</div>
+        <p>O recibo da execução aparecerá aqui depois da chamada ao endpoint. Ele inclui status HTTP, caminho técnico e os campos retornados.</p>
         <div class="empty-output-list" aria-hidden="true">
-          <span>Sentimento</span><span>Entidades</span><span>Tópico</span><span>Similaridade</span>
+          <span>Status HTTP</span><span>Sentimento</span><span>Entidades</span><span>Similaridade</span>
         </div>
       </div>
     </div>
