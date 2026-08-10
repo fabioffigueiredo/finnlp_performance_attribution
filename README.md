@@ -3,8 +3,8 @@
 
   <h1>FinNLP — Performance Attribution & Market Intelligence</h1>
 
-  <p><strong>Plataforma de NLP financeiro:</strong> classificação de sentimento, busca semântica,
-  grafo de conhecimento e monitoramento de mercado em tempo real.</p>
+  <p><strong>Demonstração de NLP financeiro:</strong> classificação de sentimento, busca semântica,
+  grafo de conhecimento e análise de texto reproduzível.</p>
 
   <p>
     <img src="https://img.shields.io/badge/python-3.12-blue?style=flat-square&logo=python&logoColor=white" alt="Python">
@@ -37,11 +37,10 @@
 
 ## 🎯 O que é
 
-O **FinNLP** é uma plataforma _end-to-end_ que transforma notícias e relatórios financeiros
-brutos em **inteligência acionável** para uma diretoria de estratégia de investimentos. Combina
-um pipeline completo de Processamento de Linguagem Natural com uma aplicação web premium
-(estética _Dark Financial_) que oferece análise sob demanda e **monitoramento de mercado em
-tempo real**.
+O **FinNLP** é uma demonstração _end-to-end_ que transforma textos financeiros públicos ou
+sintéticos em sinais exploratórios: sentimento, entidades, tópico e similaridade. Combina um
+pipeline de Processamento de Linguagem Natural com uma aplicação web que torna o caminho de
+execução inspecionável — da interface ao endpoint e ao serviço de pipeline.
 
 > **Contexto:** projeto de origem acadêmica. O cliente ("Gestão do Fundo") é **fictício e
 > genérico** — nenhuma instituição real é referenciada. Dados públicos
@@ -56,7 +55,7 @@ tempo real**.
 | 🧩 **Modelagem de tópicos** | LDA com visualização interativa (pyLDAvis) |
 | 🕸️ **Grafo de conhecimento** | NER (spaCy) + RegEx + Levenshtein → rede de entidades com centralidade |
 | 🕓 **Versionamento histórico** | SCD Tipo 2 (SQLAlchemy/SQLite) rastreia a evolução do sentimento por entidade |
-| 📡 **Tempo real** | Coleta RSS contínua + push via Server-Sent Events (SSE) |
+| 📡 **Stream opcional** | Coleta RSS configurável + push via Server-Sent Events (SSE) |
 | 📊 **Rastreamento de ML** | Experimentos versionados com MLflow |
 
 ---
@@ -171,7 +170,7 @@ sequenceDiagram
 | **Grafo** | NetworkX, PyVis, python-Levenshtein |
 | **ML Ops** | MLflow 2.12 |
 | **Frontend** | HTML5 + CSS custom properties + Vanilla JS (sem build, sem npm) |
-| **Testes** | pytest (16 testes) |
+| **Testes** | pytest (19 testes) |
 
 ---
 

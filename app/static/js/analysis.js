@@ -16,7 +16,7 @@ window.MODULE_INIT.analysis = function () {
       document.getElementById("analyze-text").value = demoText;
       document.getElementById("analyze-lang").value = "en";
       document.getElementById("analyze-topn").value = "3";
-      document.getElementById("analysis-results").innerHTML = `<div class="card"><div class="muted" style="font-size:13px">Cenário carregado. Clique em Analisar para executar o endpoint real.</div></div>`;
+      document.getElementById("analysis-results").innerHTML = `<div class="analysis-empty"><div class="card-label">Cenário carregado</div><p>Agora execute a análise para chamar o endpoint real. Nenhum resultado é montado antes dessa requisição.</p></div>`;
     });
   }
 
@@ -29,7 +29,10 @@ window.MODULE_INIT.analysis = function () {
       out.innerHTML = `<div class="card"><div class="error">Cole um texto para analisar.</div></div>`;
       return;
     }
-    out.innerHTML = `<div class="card"><div class="loading">Analisando…</div></div>`;
+    const originalLabel = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Analisando…";
+    out.innerHTML = `<div class="analysis-empty"><div class="card-label">Requisição em andamento</div><p>Chamando <span class="mono">POST /api/analyze</span> e aguardando o retorno do pipeline.</p></div>`;
 
     try {
       const resp = await fetch("/api/analyze", {
@@ -38,15 +41,18 @@ window.MODULE_INIT.analysis = function () {
         body: JSON.stringify({ text, lang, top_n: Number(topN) }),
       });
       const d = await resp.json();
-      if (d.error) throw new Error(d.error);
-      out.innerHTML = renderAnalysis(d);
+      if (!resp.ok || d.error) throw new Error(d.error || `HTTP ${resp.status}`);
+      out.innerHTML = renderAnalysis(d, resp.status);
     } catch (e) {
-      out.innerHTML = `<div class="card"><div class="error">Erro na análise: ${e}</div></div>`;
+      out.innerHTML = `<div class="card"><div class="error">Erro na análise: ${escapeHtml(e.message || String(e))}</div></div>`;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalLabel;
     }
   });
 };
 
-function renderAnalysis(d) {
+function renderAnalysis(d, httpStatus) {
   const sentClass = { positive: "pos", neutral: "neu", negative: "neg" }[d.sentiment] || "neu";
   const conf = Math.round((d.confidence || 0) * 100);
   const ents = (d.entities || []).length
@@ -59,9 +65,16 @@ function renderAnalysis(d) {
       ).join("")
     : '<span class="muted">—</span>';
 
-  return `
+  return `<section class="analysis-result" aria-label="Resultado da análise">
+    <div class="result-runbar">
+      <div>
+        <div class="card-label">Resultado verificável</div>
+        <p>Resposta recebida do endpoint real desta demonstração.</p>
+      </div>
+      <span class="http-status">HTTP ${httpStatus}</span>
+    </div>
     <aside class="execution-trace" aria-label="Traço de execução">
-      <span class="trace-label">Execução verificada</span>
+      <span class="trace-label">Caminho executado</span>
       <span class="mono">POST /api/analyze</span><span aria-hidden="true">→</span>
       <span class="mono">PipelineService</span><span aria-hidden="true">→</span>
       <span>resultado</span>
@@ -84,7 +97,8 @@ function renderAnalysis(d) {
     <div class="result-card">
       <div class="card-label">Busca Semântica (cosseno)</div>
       ${search}
-    </div>`;
+    </div>
+  </section>`;
 }
 
 function escapeHtml(s) {

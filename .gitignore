@@ -31,6 +31,10 @@ reports/images/*
 # --- Mídia temporária da demonstração editorial ---
 media/
 
+# --- Evidências locais de navegação e QA visual ---
+.playwright-cli/
+output/
+
 # --- Sistema operacional ---
 .DS_Store
 .superpowers/assets/

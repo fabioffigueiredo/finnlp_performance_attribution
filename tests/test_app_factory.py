@@ -64,3 +64,16 @@ def test_analysis_fragment_exposes_a_labeled_demo_and_limits():
     assert b'id="load-demo-scenario"' in resp.data
     assert "dados públicos/sintéticos".encode() in resp.data
     assert "não é recomendação de investimento".encode() in resp.data
+
+
+def test_analysis_fragment_exposes_an_inspectable_demo_contract():
+    """A primeira tela explica o que é verificável sem simular produção."""
+    app = create_app()
+    client = app.test_client()
+    resp = client.get("/m/analysis")
+
+    assert resp.status_code == 200
+    assert b'analysis-hero' in resp.data
+    assert b'POST /api/analyze' in resp.data
+    assert "PipelineService".encode() in resp.data
+    assert "resultado verificável".encode() in resp.data
