@@ -71,11 +71,6 @@
   color: var(--accent-blue-d); font-weight: 600;
   border-color: rgba(59,130,246,.22);
 }
-.nav-item.active::before {
-  content: ''; position: absolute; left: -8px; top: 50%;
-  transform: translateY(-50%); width: 3px; height: 55%;
-  background: var(--accent-blue); border-radius: 0 2px 2px 0;
-}
 /* Ícones SVG — família única, stroke consistente, herdam a cor do item */
 .nav-icon {
   width: var(--icon-md); height: var(--icon-md); flex-shrink: 0;

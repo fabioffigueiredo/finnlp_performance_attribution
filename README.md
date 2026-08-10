@@ -13,7 +13,7 @@
     <img src="https://img.shields.io/badge/scikit--learn-1.4-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" alt="scikit-learn">
     <img src="https://img.shields.io/badge/MLflow-2.12-0194E2?style=flat-square&logo=mlflow&logoColor=white" alt="MLflow">
     <img src="https://img.shields.io/badge/SSE-realtime-34D399?style=flat-square" alt="SSE">
-    <img src="https://img.shields.io/badge/tests-21%20passing-34D399?style=flat-square" alt="Tests">
+    <img src="https://img.shields.io/badge/tests-pytest-34D399?style=flat-square" alt="Tests">
   </p>
 </div>
 
@@ -171,7 +171,7 @@ sequenceDiagram
 | **Grafo** | NetworkX, PyVis, python-Levenshtein |
 | **ML Ops** | MLflow 2.12 |
 | **Frontend** | HTML5 + CSS custom properties + Vanilla JS (sem build, sem npm) |
-| **Testes** | pytest (19 testes) |
+| **Testes** | pytest para fábrica, rotas, serviço e parsing de feed |
 
 ---
 
@@ -260,7 +260,7 @@ finnlp_performance_attribution/
 │   └── images/finnlp-verifiable-analysis-v2.png  # captura atual do endpoint no cenário fictício
 ├── data/                         # Corpus processado, grafo (GEXF), banco SCD2
 ├── docs/                         # Documentação (este diretório)
-├── tests/                        # 22 testes (pytest)
+├── tests/                        # suíte pytest
 ├── requirements.txt
 └── README.md
 ```
@@ -287,9 +287,8 @@ PYTHONPATH=. pytest tests/ -v
 Cobre: factory Flask, inicialização segura da demo, `PipelineService` (warmup + análise),
 parsing RSS e os endpoints de API.
 
-```
-18 passed
-```
+Execute o comando acima no clone local para obter o resultado atual da suíte. Não há contagem fixa
+publicada na vitrine: novos testes não devem exigir uma edição cosmética para manter o README verdadeiro.
 
 ---
 

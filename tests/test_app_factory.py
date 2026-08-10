@@ -116,3 +116,13 @@ def test_readme_points_to_current_verifiable_capture():
 
     assert "reports/images/finnlp-verifiable-analysis-v2.png" in readme
     assert (root / "reports/images/finnlp-verifiable-analysis-v2.png").is_file()
+
+
+def test_readme_does_not_publish_stale_test_counts():
+    """A vitrine deve apontar para a suíte executável, não para totais que envelhecem."""
+    root = Path(__file__).parent.parent
+    readme = (root / "README.md").read_text(encoding="utf-8")
+
+    for stale_claim in ("21%20passing", "pytest (19 testes)", "22 testes (pytest)", "18 passed"):
+        assert stale_claim not in readme
+    assert "PYTHONPATH=. pytest tests/ -v" in readme
